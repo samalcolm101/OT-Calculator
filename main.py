@@ -1,18 +1,14 @@
-from tabulate import tabulate
-"""
-table = [["Sun", 696000, 1989100000], ["Earth", 6371, 5973.6],
-         ["Moon", 1737, 73.5], ["Mars", 3390, 641.85]]
-
-print(tabulate(table))
-
-"""
-
+from tabulate import tabulate  # packaghe for displaying the inputs nicely
 
 allDays = []
-MONTH = input("Month: ")
+MONTH = input("Month: ")  # gets the month
+if MONTH == "February":  # deals with leap years
+    leap = input("Is it a leapyear? ")
+    if leap == "Yes":
+        leapYear = True
 
 
-def howManyDays(month, leapYear=False):
+def howManyDays(month, leapYear=False):  # gets how many days are in a month
     daysInMonths = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 29]
     months = ["January", "February", "March", "April", "May", "June",
               "July", "August", "September", "October", "November", "December"]
@@ -24,19 +20,18 @@ def howManyDays(month, leapYear=False):
 
 
 DAYS = howManyDays(MONTH)
-LUNCH = input("Lunch: ")
+LUNCH = input("Lunch: ")  # gets the legnth of the lunch break
 
-
-"""
+""" EXPLANATIONS FOR HOW calcType WORKS
 calcType 1: HUMAN --> MATHS
 calcType 2: MATHS --> HUMAN
 
 """
 
 
-def timeToNum(calcType, time1, time2=0, time3=0):
+def timeToNum(calcType, time1):
     if calcType == 1:
-        partitioned = time1.partition(":")
+        partitioned = time1.partition(":")  # splits hours and minutes
         hours = int(partitioned[0])
         mins = int(partitioned[2])
         if mins < 8:  # upto xx:07
@@ -51,13 +46,13 @@ def timeToNum(calcType, time1, time2=0, time3=0):
             hours += 1
             mins = 0
 
-        return (f"{hours}.{mins}")
+        return (f"{hours}.{mins}")  # returns in a maths format
 
     elif calcType == 2:
         partitioned = time1.partition(".")
         hours = int(partitioned[0])
         mins = float(partitioned[2])
-        while mins > 1:
+        while mins > 1:  # there is a power factor issue somewhere, and this bodgily fixes it
             mins = mins/10
 
         if mins == 0:
@@ -71,14 +66,14 @@ def timeToNum(calcType, time1, time2=0, time3=0):
         return(f"{hours}:{mins}")
 
 
-def cleanUpTimes(time1):
+def cleanUpTimes(time1):  # does some housekeeping
     time1 = timeToNum(1, time1)
     time1 = timeToNum(2, time1)
 
     return time1
 
 
-def timeDifference(start, finish):
+def timeDifference(start, finish):  # calculates the time difference
     start = timeToNum(1, start)
     finish = timeToNum(1, finish)
 
@@ -94,33 +89,32 @@ def timeDifference(start, finish):
 
     calc = finishJoined - startJoined
 
-    return(timeToNum(2, str(calc)))
+    return(timeToNum(2, str(calc)))  # returns it in human form not maths form
 
 
 def dataInput():
-    for _ in range(1, DAYS+1):
+    for _ in range(1, DAYS+1):  # loops through however many days there are in that month
         if _ > 1.1:
             print(tabulate(allDays))
         op = []
         op.append(_)
         print(_)
-        startTime = input("Start Time: ")
-        if startTime == "NWD":
+        startTime = input("Start Time: ")  # gets the start time
+        if startTime == "NWD":  # handles non working days
             allDays.append([_, 0, 0, 0, 0])
             continue
         op.append(cleanUpTimes(startTime))
-        finishTime = input("Finish Time: ")
+        finishTime = input("Finish Time: ")  # gets the finish time
         op.append(cleanUpTimes(finishTime))
         op.append(LUNCH)
         op.append(timeDifference(startTime, finishTime))
-        allDays.append(op)
+        allDays.append(op)  # appends the final list
 
 
 def calcTotalHours():
-
     totalHours = 0
     for day in allDays:
-        if day[4] == 0:
+        if day[4] == 0: #handles Non working days
             continue
         mathsTime = timeToNum(1, day[4])
 
@@ -131,6 +125,7 @@ def calcTotalHours():
         mathsJoined -= int(LUNCH)
         totalHours += mathsJoined
     return totalHours
+
 
 dataInput()
 # calcTotalHours()
@@ -143,7 +138,6 @@ totalHours = calcTotalHours()
 print(tabulate(allDays))
 
 print(f"""
-
 Total Hours: {totalHours}
 Hourly Salary: {hourlySalary}
 Total Hourly Pay: £{totalHours*hourlySalary}
