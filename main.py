@@ -114,7 +114,7 @@ def dataInput():
 def calcTotalHours():
     totalHours = 0
     for day in allDays:
-        if day[4] == 0: #handles Non working days
+        if day[4] == 0:  # handles Non working days
             continue
         mathsTime = timeToNum(1, day[4])
 
