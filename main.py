@@ -135,7 +135,7 @@ monthSalary = int(salary)/12
 daySalary = monthSalary/DAYS
 hourlySalary = daySalary/8
 totalHours = calcTotalHours()
-print(tabulate(allDays))
+print(tabulate(allDays, headers=["Date", "Start Time", "Finish Time", "Lunch Time", "Total Work"]))
 
 print(f"""
 Total Hours: {totalHours}
