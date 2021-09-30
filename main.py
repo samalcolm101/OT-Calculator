@@ -20,7 +20,7 @@ def howManyDays(month, leapYear=False):  # gets how many days are in a month
 
 
 DAYS = howManyDays(MONTH)
-LUNCH = input("Lunch: ")  # gets the legnth of the lunch break
+LUNCH = input("Lunch: ")  # gets the legnth of the lunch break in hours
 
 """ EXPLANATIONS FOR HOW calcType WORKS
 calcType 1: HUMAN --> MATHS
